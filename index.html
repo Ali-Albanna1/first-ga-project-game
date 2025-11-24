@@ -60,9 +60,36 @@
 
 <button type="button" ><i class="material-symbols-outlined">exit_to_app</i></button>
 
-<p>Turn:Player  
-          <span id="boredom-stat">1</span>
-        </p>
+<p>Turn:Player<span id="player-turn">1</span></p>
+
+<section class="selection-wrapper">
+
+  <label for="selected-categories">Choosen Catagories : </label>
+
+     <select name="selected-categories" multiple id="choosen-categories" title="Choose-question" >
+
+  
+
+   </select>
+  
+</section>
+
+<section class="Levels">
+  
+  <label>Please select your preferred difficulty level:</label>
+
+  <input type="radio" id="level-choice1" name="level" value="easy" />
+  <label for="dewey">Easy</label>
+  
+  <input type="radio" id="level-choice2" name="level" value="medium" />
+  <label for="dewey">Medium</label>
+  
+  <input type="radio" id="level-choice3" name="level" value="hard" />
+  <label for="dewey">Hard</label>
+  
+  
+</section>
+
 <section class="question-wrapper">
 <p id="question"> What was the first car that has a seatbelt ?</p>
 </section>
@@ -79,7 +106,7 @@
 </section>
 
 <section class="answer-wrapper">
-<p id="answer-p">The Correct Answer is : <span id="correct-answer">...</span></p>
+<p id="correct-answer-p">The Correct Answer is : <span id="correct-answer">...</span></p>
 </section>
 
 <section class="button-wrapper">

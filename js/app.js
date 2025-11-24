@@ -216,6 +216,10 @@ let Player2N = ''
 let timer = 1
 
 
+
+
+
+
 /* cached elements ---------------------------------------------------*/
 
 
@@ -236,21 +240,32 @@ const timerDisp = document.querySelector('#timerdisplay')
 const selectEl = document.querySelector('#categories')
 
 
+const playerTurnDisp = document.querySelector('#player-turn')
+
+
+const selectionList = document.querySelector('#choosen-categories')
+
+
+const answerEl = document.querySelector('#question')
+
+
+
 
 /* Functions ---------------------------------------------------*/
 
 const startForm = () => {
 
+  
     
 if (player1Name.value !== '' && player2Name.value !== '' && selectedValues.length > 0 ) {
 
     player1N = player1Name.value
 
+
     Player2N = player2Name.value
-
+    
     console.log(player1N  + ' ' + Player2N )
-
-   
+    
 }
 
 else {
@@ -289,10 +304,25 @@ const selectedCategories =  () => {
         if (selectEl.options[i].selected) {
 
           selectedValues.push(selectEl.options[i].value);
+
+            selectionList.appendChild(selectEl.options[i])
+
         }
       }
       console.log('Selected categories:', selectedValues);
+
     }
+
+
+
+    
+
+
+
+
+
+
+
 
 
 
@@ -300,11 +330,11 @@ const selectedCategories =  () => {
 
 startBtnEl.addEventListener('click',startForm)
 
-timeSetAdd.addEventListener('click', addToTimer)
+timeSetAdd.addEventListener('click',addToTimer)
 
-timeSetSub.addEventListener('click', subTimer)
+timeSetSub.addEventListener('click',subTimer)
 
-selectEl.addEventListener('change', selectedCategories) 
+selectEl.addEventListener('change',selectedCategories) 
   
   
   
