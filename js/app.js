@@ -282,8 +282,15 @@ const option3El = document.querySelector('#option3')
 
 const option4El = document.querySelector('#option4')
 
-
 const allOpButtons = [option1El, option2El, option3El, option4El]
+
+
+const player1ScoreDisp = document.querySelector('#p1-score')
+
+const player2ScoreDisp = document.querySelector('#p2-score')
+
+
+
 
 /* Functions ---------------------------------------------------*/
 
@@ -334,6 +341,8 @@ const selectedCategories =  () => {
 
   selectedValues.length = 0
 
+  gameState.usedQuestions = [] 
+
    for (let i = 0; i < selectEl.options.length; i++) {
 
         if (selectEl.options[i].selected) {
@@ -370,21 +379,62 @@ function getSelectedDifficulty() {
    else{return 'easy'} 
 }
 
+const getSelectedDifficultyPoints = () => {
+
+   const difficulty = getSelectedDifficulty()
+
+   if (difficulty === 'easy') {
+      return 100
+   }
+
+    if (difficulty === 'medium') {
+      return 200
+   }
+  
+
+   
+    if (difficulty === 'hard') {
+      return 300
+   }
+
+
+}
+
 
 const getQuestionForRound = () => {
-  const category = getRandomCat();
-  const difficulty = getSelectedDifficulty();
+  
+     resetOptions()  
+
+  const category = getRandomCat()
+
+  const difficulty = getSelectedDifficulty()
 
   if (!category) {
-    alert('Please choose at least one category');
+    alert('Please choose at least one category')
     return;
   }
 
-  const questionList = gameData[category][difficulty];
-  const randomIndex = Math.floor(Math.random() * questionList.length);
-  const question = questionList[randomIndex];
 
-  questionDispEl.textContent = question.question; 
+  const questionList = gameData[category][difficulty]
+
+  // filter alredy used questions 
+  const availableQuestions = questionList.filter(q =>
+  !gameState.usedQuestions.includes(q.question)
+)
+
+if (availableQuestions.length === 0) {
+  questionDispEl.textContent = 'no more questions'
+  disableOpBtn()
+  return
+}
+
+  const randomIndex = Math.floor(Math.random() * availableQuestions.length)
+  
+  const question = availableQuestions[randomIndex]
+
+
+  questionDispEl.textContent = question.question;
+
 
   option1El.textContent = question.options[0]
 
@@ -396,7 +446,9 @@ const getQuestionForRound = () => {
 
   gameState.currentQuestion = question; 
 
-  resetOptions()
+  gameState.usedQuestions.push(question.question)
+
+  
 };
 
 // the full question with the answer and options is stored in the gamestate.currentQuestion
@@ -411,6 +463,7 @@ correctAnswer = gameState.currentQuestion.answer
 if(chosenAnswer === correctAnswer){
 
   event.target.style.backgroundColor = 'green'
+  updateScore()
 }
 
 else {
@@ -422,6 +475,8 @@ else {
 
 }
    disableOpBtn()
+
+   switchTurn()
 
 } 
 
@@ -460,8 +515,39 @@ const resetOptions =() => {
   })
 }
 
+const switchTurn = ()  => {
+ if (gameState.currentPlayer === 1)
+ {
+   gameState.currentPlayer = 2
+   playerTurnDisp.textContent = 2
+ }
+
+ else{
+
+    gameState.currentPlayer = 1
+
+    playerTurnDisp.textContent = 1
+
+ }
+
+}
 
 
+const updateScore = () =>  {
+  const points = getSelectedDifficultyPoints()
+
+  if (gameState.currentPlayer === 1) {
+
+    gameState.player1Score += points
+
+    player1ScoreDisp.textContent = gameState.player1Score;
+
+  } else {
+
+    gameState.player2Score += points
+    player2ScoreDisp.textContent = gameState.player2Score;
+  }
+}
 
 
 
