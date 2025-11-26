@@ -375,30 +375,31 @@ const gameData = {
 
 const selectedValues = []
 
-const choosenCategories = []
-
-
-
 /* variables ---------------------------------------------------*/
 let player1N = ''
 
 let Player2N = ''
-
-let timer = 1
 
 let chosenAnswer
 
 let correctAnswer
 
 const gameState = {
-    currentPlayer: 0,
-    player1Score: 0,
-    player2Score: 0,
-    currentQuestion: null,
-    usedQuestions: [], 
-    isGameActive: false,
-    difficultyQCount: { easy: 0, medium: 0, hard: 0 }
-
+  currentPlayer: 0,
+  player1Score: 0,
+  player2Score: 0,
+  currentQuestion: null,
+  usedQuestions: {
+    history: [],
+    science: [],
+    geography: [],
+    technology: [],
+    cars: []
+  },
+  isGameActive: false,
+  difficultyQCount: { easy: 0, medium: 0, hard: 0 },
+  round: 1,          
+  totalRounds: 10    
 }
 
 
@@ -412,9 +413,6 @@ const player1Name = document.querySelector('#player1-input')
 const player2Name = document.querySelector('#player2-input')
 
 const startBtnEl = document.querySelector('#start-btn')
-
-const timerDisp = document.querySelector('#timerdisplay')
-
 
 const selectEl = document.querySelector('#categories')
 
@@ -489,6 +487,14 @@ if (player1Name.value !== '' && player2Name.value !== '' && selectedValues.lengt
     p2NameDisp.textContent = Player2N
 
 
+    resetGame()
+
+
+    questionDispEl.textContent = '?'
+
+    resetOptions()
+
+
     formViewEl.style.display = 'none' 
 
     gameViewEl.style.display = 'block'
@@ -508,14 +514,6 @@ else {
 const selectedCategories =  () => {
 
   selectedValues.length = 0
-
-  gameState.usedQuestions = {
-  history: [],
-  science: [],
-  geography: [],
-  technology: [],
-  cars: []
-};
 
   selectionList.innerHTML = ''
 
@@ -552,7 +550,6 @@ function getSelectedDifficulty() {
 
     if (radioHardEl.checked) {return 'hard'}
 
-   else{return 'easy'} 
 }
 
 const getSelectedDifficultyPoints = () => {
@@ -579,10 +576,15 @@ const getSelectedDifficultyPoints = () => {
 
 const getQuestionForRound = () => {
 
+    if (gameState.round > gameState.totalRounds) {
+    alert("Game is over! Please restart to play again.")
+    return
+    }
+
   if (!isDifficultySelected()){
     alert('Please select difficullty level before showing question')
     return
-  }
+    }
 
   
      resetOptions()  
@@ -608,7 +610,7 @@ const getQuestionForRound = () => {
 
 if (availableQuestions.length === 0) {
 
-  questionDispEl.textContent = 'no more questions'
+  questionDispEl.textContent = 'no more questions in this categories/difficulty'
 
   disableOpBtn()
   
@@ -632,17 +634,19 @@ if (availableQuestions.length === 0) {
 
   option4El.textContent = question.options[3]
 
-  gameState.currentQuestion = question; 
+  gameState.currentQuestion = question;
 
   gameState.usedQuestions[category].push(question.question)
 
   
-};
+}
 
 // the full question with the answer and options is stored in the gamestate.currentQuestion
 
 
 const handleAnswerOptions = (event) => {
+
+  if (!gameState.isGameActive) { return}
  
  chosenAnswer = event.target.textContent
 
@@ -663,9 +667,7 @@ else {
    
 }
 
-
-   const level = getSelectedDifficulty()
-    gameState.difficultyQCount[level] += 1
+    gameState.round += 1
    
     setTimeout(checkGameOver, 600)
   
@@ -676,13 +678,13 @@ else {
 
 } 
 
-const highlightCorrectOption = () => {
+const highlightCorrectOption = (answer) => {
 
 allOpButtons 
 
 allOpButtons.forEach(button => {
 
-  if(button.textContent === correctAnswer){
+  if(button.textContent === answer){
 
      button.style.backgroundColor = 'green'
   }
@@ -777,12 +779,15 @@ const endGame = () => {
 
   disableOpBtn()
 
+  gameState.isGameActive = false;
+
+
 }
 
 
 const checkGameOver = () => {
 
-  if(gameState.difficultyQCount.easy >= 2 && gameState.difficultyQCount.medium >= 2 && gameState.difficultyQCount.hard >= 2 ){
+  if(gameState.round > gameState.totalRounds ){
 
     endGame()
 
@@ -794,8 +799,34 @@ const checkGameOver = () => {
 const isDifficultySelected = () => {
   return (
     radioEasyEl.checked ||radioMedEl.checked ||radioHardEl.checked
-  );
-};
+  )
+}
+
+const resetGame = () => {
+
+  gameState.player1Score = 0
+
+  gameState.player2Score = 0
+
+  gameState.usedQuestions = {
+    history: [],
+    science: [],
+    geography: [],
+    technology: [],
+    cars: []
+  };
+
+  gameState.round = 1
+  gameState.totalRounds = 10
+
+  player1ScoreDisp.textContent = 0
+  player2ScoreDisp.textContent = 0
+  
+  showQBtn.disabled = false
+
+  gameState.isGameActive = true
+
+}
 
 /* event listener---------------------------------------------------*/
 
