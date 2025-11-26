@@ -411,10 +411,6 @@ const player1Name = document.querySelector('#player1-input')
 
 const player2Name = document.querySelector('#player2-input')
 
-const timeSetAdd = document.querySelector('#plusBtn')
-
-const timeSetSub = document.querySelector('#minusBtn')
-
 const startBtnEl = document.querySelector('#start-btn')
 
 const timerDisp = document.querySelector('#timerdisplay')
@@ -462,6 +458,10 @@ const p1NameDisp = document.querySelector('#p1-name')
 
 const p2NameDisp = document.querySelector('#p2-name')
 
+const formViewEl = document.querySelector('#start-form')
+
+const gameViewEl = document.querySelector('#game-view')
+
 
 
 
@@ -487,40 +487,37 @@ if (player1Name.value !== '' && player2Name.value !== '' && selectedValues.lengt
      p1NameDisp.textContent = player1N
 
     p2NameDisp.textContent = Player2N
+
+
+    formViewEl.style.display = 'none' 
+
+    gameViewEl.style.display = 'block'
+
+    
 }
 
 else {
 
    
-  alert('Please put the names and rest settings to start')
+  alert('Please put the names and at least one category to satrt')
 
 }
 }
-
-const addToTimer = () => {
-
-timer += 1
-timerDisp.textContent = timer
-    
-}
-
-const subTimer = () => {
-
-     if (timer > 1 ){
-
-        (timer += -1) 
-
-    timerDisp.textContent = timer }
-    
-}
-
 
 
 const selectedCategories =  () => {
 
   selectedValues.length = 0
 
-  gameState.usedQuestions = [] 
+  gameState.usedQuestions = {
+  history: [],
+  science: [],
+  geography: [],
+  technology: [],
+  cars: []
+};
+
+  selectionList.innerHTML = ''
 
    for (let i = 0; i < selectEl.options.length; i++) {
 
@@ -581,6 +578,12 @@ const getSelectedDifficultyPoints = () => {
 
 
 const getQuestionForRound = () => {
+
+  if (!isDifficultySelected()){
+    alert('Please select difficullty level before showing question')
+    return
+  }
+
   
      resetOptions()  
 
@@ -600,7 +603,7 @@ const getQuestionForRound = () => {
 
   // filter alredy used questions 
   const availableQuestions = questionList.filter(q =>
-  !gameState.usedQuestions.includes(q.question)
+  !gameState.usedQuestions[category].includes(q.question)
 )
 
 if (availableQuestions.length === 0) {
@@ -631,13 +634,13 @@ if (availableQuestions.length === 0) {
 
   gameState.currentQuestion = question; 
 
-  gameState.usedQuestions.push(question.question)
+  gameState.usedQuestions[category].push(question.question)
 
   
 };
 
 // the full question with the answer and options is stored in the gamestate.currentQuestion
-console.log(gameState)
+
 
 const handleAnswerOptions = (event) => {
  
@@ -787,13 +790,17 @@ const checkGameOver = () => {
 
 }
 
+
+const isDifficultySelected = () => {
+  return (
+    radioEasyEl.checked ||radioMedEl.checked ||radioHardEl.checked
+  );
+};
+
 /* event listener---------------------------------------------------*/
 
 startBtnEl.addEventListener('click',startForm)
 
-timeSetAdd.addEventListener('click',addToTimer)
-
-timeSetSub.addEventListener('click',subTimer)
 
 selectEl.addEventListener('change',selectedCategories) 
   
@@ -805,3 +812,4 @@ option2El.addEventListener('click', handleAnswerOptions)
 option3El.addEventListener('click', handleAnswerOptions)
 option4El.addEventListener('click', handleAnswerOptions)
 
+console.log(gameState)
