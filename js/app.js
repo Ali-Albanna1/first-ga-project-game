@@ -460,7 +460,7 @@ const formViewEl = document.querySelector('#start-form')
 
 const gameViewEl = document.querySelector('#game-view')
 
-
+const landingScreenEl = document.querySelector("#landing-screen")
 
 
 /* Functions ---------------------------------------------------*/
@@ -492,9 +492,9 @@ if (player1Name.value !== '' && player2Name.value !== '' && selectedValues.lengt
 
     
 
-    formViewEl.style.display = 'none' 
+    landingScreenEl.style.display = "none" 
 
-    gameViewEl.style.display = 'block'
+    gameViewEl.classList.add("active")
 
     
 }

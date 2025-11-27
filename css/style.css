@@ -14,16 +14,18 @@ body {
   align-items: center;
 
   font-family: Helvetica, Tahoma, Verdana, sans-serif;
+
+   background: #f7f7f7;
 }
 
 h1 {
   text-align: center;
 }
 
-.landing-screen{
+#landing-screen{
  display: flex;
 
- height: 100vh; 
+ height: 90vh; 
 
  justify-content: center;
 
@@ -38,38 +40,189 @@ h1 {
 
     gap: 10px;
 
-    width: 300px;
+    width: 300px;   
+}
+
+#categories {
+   padding: 10px;
+
+    height: 120px;
     
 }
 
-
-.game-view{
+ .game-view{
     
     display:none;
-   
+
+    margin-top: 20px;
+
+    gap: 20px;
+
+    flex-direction: column;
+
+    align-items: center;
+
+} 
+
+.game-view.active{
+
+    display: flex;
+}
+
+#turn-p{
+   border: 1px solid #ddd;  
+   background: #f2f2f2;
+}
+
+#player-turn {
+    font-weight: bold;
+
+    color: #3498db;
+
+    
 }
 
 .options-wrapper {
+
     display: flex;
 
     flex-wrap: wrap;
 
-    border: 1px solid black;
+    border: 1px solid #eee;
 
     padding: 10px;
-
+   
+    justify-content: center;
 }
 
 .options-wrapper button {
 
-    padding: 20px;
+    padding: 15px;
+    
+    border-radius:8px;
 
-    background-color: lightgray;
+    border: 1px solid #ddd;
 
-    border: none;
+    cursor: pointer;
 
     width: 48%;
     
     margin-bottom: 10px;
 
+    font-size: 16px;
+
+    transition: 0.6s;
+
 }
+
+.options-wrapper button:hover {
+    background: #f0f0f0;
+}
+
+.options-wrapper button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+input, select, button {
+    padding: 10px;
+
+    border-radius: 6px;
+     
+    border: 1px solid #ccc;
+    
+    font-size: 14px;
+}
+
+button{
+
+    background: #6ebee9;
+
+    color: white;
+
+    cursor: pointer;
+}
+
+.start-form button:hover{
+
+    background: lightgreen;
+}
+
+
+.question-wrapper,
+.options-wrapper,
+.Levels,
+.selection-wrapper,
+.names-scores {
+    width: 500px;       
+    margin: 0 auto;     
+}
+
+.levels{
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 3px;
+
+    margin: 10px 0;
+
+    background: #f5f5f5;
+}
+
+.question-wrapper{
+     
+     display: flex;
+
+     flex-direction: column;
+
+     align-items: center;
+
+     gap: 10px;
+
+     margin-top: 10px;
+}
+
+.question{
+
+    font-size: 20px;
+
+    text-align: center;
+
+    border: 2x solid #ddd;
+
+     border-radius: 8px;
+
+    padding: 15px;
+
+    width: 280px;
+
+    background: #fafafa;
+
+    
+}
+
+.names-scores {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 40px;
+
+    margin-top: 20px;
+
+    font-size: 18px;
+}
+
+.names-scores p {
+    background: #f2f2f2;
+
+    padding: 10px 20px;
+
+    border-radius: 8px;
+
+    border: 1px solid #ddd;
+}
+
